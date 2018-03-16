@@ -9,7 +9,7 @@
   - /hadoop/yarn/nm
 
 - unarchive:
-    src: https://mmgaggle-bd.s3.amazonaws.com/hadoop-2.7.3.tar.gz
+    src: "{{ tarball_prefix }}/{{ hadoop_tarball }}"
     dest: /hadoop
     remote_src: True
     extra_opts: "--strip-components=1"
@@ -21,6 +21,10 @@
 
 - name: Configure profile
   template: src=profile.j2 dest=/etc/profile.d/hadoop.sh
+  tags: hadoop
+
+- name: Configure security limits
+  template: src=limits.conf.j2 dest=/etc/security/limits.conf
   tags: hadoop
 
 - name: Configure core site file
